@@ -299,7 +299,7 @@ function App() {
               See My Work
             </button>
             <a
-              href="/Dheeshani_CV.pdf"
+              href="./Dheeshani_CV.pdf"
               target="_blank"
               className="px-8 py-4 border border-violet-500/60 hover:bg-violet-950/40 rounded-full transition-all"
             >
