@@ -196,15 +196,30 @@ function App() {
         </h1>
 
         {/* Desktop Nav */}
-        <nav className="hidden sm:flex space-x-8 text-sm uppercase tracking-wider">
+        <nav className="hidden sm:flex items-center gap-10 text-sm uppercase tracking-[2px] font-medium">
           {['about', 'projects', 'skills', 'contact'].map((section) => (
             <button
               key={section}
               onClick={() => scrollToSection(section)}
-              className={`relative group transition duration-300 hover:text-violet-400 ${activeSection === section ? 'text-violet-400' : 'text-gray-300'}`}
+              className={`relative py-2 px-1 transition-all duration-300 hover:-translate-y-0.5 
+        ${activeSection === section
+                  ? 'text-white'
+                  : 'text-gray-400 hover:text-white'
+                }`}
             >
-              {section}
-              <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-violet-400 transition-all duration-300 group-hover:w-full" />
+              {section.charAt(0).toUpperCase() + section.slice(1)}
+
+              <span className={`absolute left-1/2 -bottom-1 h-[2px] bg-gradient-to-r from-violet-400 to-fuchsia-500 
+        transition-all duration-500 -translate-x-1/2
+        ${activeSection === section
+                  ? 'w-full shadow-[0_0_8px_#a855f7]'
+                  : 'w-0 group-hover:w-full'
+                }`}
+              />
+
+              {activeSection === section && (
+                <span className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 rounded-lg -z-10 blur-sm" />
+              )}
             </button>
           ))}
         </nav>
@@ -212,7 +227,8 @@ function App() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="sm:hidden text-violet-400 text-xl"
+          className="sm:hidden text-3xl text-violet-400 hover:text-white transition-all duration-300 active:scale-90 z-50"
+          aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? '✕' : '☰'}
         </button>
@@ -220,15 +236,29 @@ function App() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-black/95 z-50 sm:hidden pt-20">
-          <div className="flex flex-col items-center space-y-8 text-2xl">
-            {['about', 'projects', 'skills', 'contact'].map((section) => (
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[100] sm:hidden flex items-center justify-center">
+
+          {/* Close Button */}
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="absolute top-8 right-8 text-5xl text-violet-400 hover:text-white transition-all duration-300 z-10"
+          >
+            ✕
+          </button>
+
+          <div className="flex flex-col items-center justify-center space-y-10 text-4xl font-light text-center">
+            {['about', 'projects', 'skills', 'contact'].map((section, index) => (
               <button
                 key={section}
                 onClick={() => scrollToSection(section)}
-                className="text-white hover:text-violet-400 transition"
+                className="relative px-12 py-5 text-white hover:text-violet-400 
+                     transition-all duration-300 hover:scale-110 active:scale-95
+                     hover:bg-white/10 rounded-3xl w-80"
               >
                 {section.charAt(0).toUpperCase() + section.slice(1)}
+
+                {/* Hover underline */}
+                <span className="absolute bottom-4 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-gradient-to-r from-violet-400 to-fuchsia-500 group-hover:w-16 transition-all duration-300" />
               </button>
             ))}
           </div>
@@ -562,6 +592,23 @@ function App() {
             animation: fadeIn 0.6s ease-out forwards;
           }
         `
+      }} />
+
+
+      {/* Global Styles */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  `
       }} />
     </div>
   );
