@@ -78,41 +78,7 @@ function App() {
     }
   };
 
-  const TerminalLines = () => {
-    const [visibleLines, setVisibleLines] = useState<string[]>([]);
 
-    useEffect(() => {
-      const logs = [
-        "[init] loading portfolio modules...",
-        "[build] compiling React components...",
-        "[style] injecting Tailwind system...",
-        "[api] connecting project gallery...",
-        "[optimize] reducing bundle size...",
-        "[deploy] pushing to production...",
-        "[success] system ready 🚀",
-      ];
-
-      let i = 0;
-      const interval = setInterval(() => {
-        setVisibleLines((prev) => [...prev, logs[i]]);
-        i++;
-        if (i >= logs.length) clearInterval(interval);
-      }, 1200);
-
-      return () => clearInterval(interval);
-    }, []);
-
-    return (
-      <>
-        {visibleLines.map((line, index) => (
-          <div key={index} className="animate-fadeIn">
-            <span className="text-green-400">$</span> {line}
-          </div>
-        ))}
-        <div className="animate-pulse text-violet-400">▊</div>
-      </>
-    );
-  };
 
   useEffect(() => {
     const canvas = document.getElementById("matrixRain") as HTMLCanvasElement;
@@ -585,15 +551,18 @@ function App() {
         </p>
       </footer>
 
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.6s ease-out forwards;
-        }
-      `}</style>
+      {/* Global Styles for Animation */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+          }
+          .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out forwards;
+          }
+        `
+      }} />
     </div>
   );
 }
