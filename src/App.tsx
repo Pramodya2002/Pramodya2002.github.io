@@ -238,7 +238,6 @@ function App() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[100] sm:hidden flex items-center justify-center">
 
-          {/* Close Button */}
           <button
             onClick={() => setIsMobileMenuOpen(false)}
             className="absolute top-8 right-8 text-5xl text-violet-400 hover:text-white transition-all duration-300 z-10"
@@ -247,18 +246,18 @@ function App() {
           </button>
 
           <div className="flex flex-col items-center justify-center space-y-10 text-4xl font-light text-center">
-            {['about', 'projects', 'skills', 'contact'].map((section, index) => (
+            {['about', 'projects', 'skills', 'contact'].map((section) => (
               <button
                 key={section}
                 onClick={() => scrollToSection(section)}
                 className="relative px-12 py-5 text-white hover:text-violet-400 
                      transition-all duration-300 hover:scale-110 active:scale-95
-                     hover:bg-white/10 rounded-3xl w-80"
+                     hover:bg-white/10 rounded-3xl w-80 group"
               >
                 {section.charAt(0).toUpperCase() + section.slice(1)}
 
-                {/* Hover underline */}
-                <span className="absolute bottom-4 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-gradient-to-r from-violet-400 to-fuchsia-500 group-hover:w-16 transition-all duration-300" />
+                <span className="absolute bottom-4 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-gradient-to-r from-violet-400 to-fuchsia-500 
+                           group-hover:w-16 transition-all duration-300" />
               </button>
             ))}
           </div>
