@@ -285,7 +285,7 @@ function App() {
             Hi, I’m Dheeshani
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-gray-300 font-light max-w-2xl mx-auto">
-            Full-Stack Software Engineer crafting scalable web applications and delightful digital experiences with React, Laravel, and WordPress.
+            Computer Science Graduate & Full-Stack Software Engineer crafting scalable web applications and delightful digital experiences with React, Laravel, and WordPress.
           </p>
 
 
@@ -340,7 +340,8 @@ function App() {
 
           <div className="md:col-span-3 space-y-8 text-gray-300">
             <p className="text-lg leading-relaxed">
-              I'm a passionate <strong className="text-violet-300">BSc (Hons) Computer Science graduate</strong> focused on building clean, user-friendly, and impactful web applications that solve real-world problems.
+              I'm a passionate <strong className="text-violet-300">BSc (Hons) Computer Science graduate</strong> from Staffordshire University with
+              <strong className="text-violet-300"> Second Class Honours (First Division)</strong>, specializing in modern full-stack web development and creating impactful digital experiences through scalable and user-focused applications.
             </p>
 
             <p className="leading-relaxed">
