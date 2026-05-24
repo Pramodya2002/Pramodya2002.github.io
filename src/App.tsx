@@ -544,17 +544,24 @@ function App() {
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {[
                 "Problem Solving",
-                "Team Collaboration",
-                "Communication",
                 "Critical Thinking",
-                "Time Management",
-                "Adaptability",
-                "Debugging",
-                "Project Management",
                 "Attention to Detail",
+                "Strategic Planning",
+                "Project Coordination",
+                "Project Management",
+                "Leadership",
+                "Team Collaboration",
+                "Conflict Resolution",
+                "Communication",
+                "Strong Verbal Communication",
+                "Strong Written Communication",
+                "Time Management",
+                "Meeting Deadlines",
+                "Multitasking",
+                "Adaptability",
                 "Continuous Learning",
-                "Creativity",
-                "Leadership"
+                "Risk Management",
+                "Process Improvement"
               ].map((skill, i) => (
                 <div
                   key={i}
