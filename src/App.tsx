@@ -15,7 +15,7 @@ function App() {
     const handleScroll = () => {
       setShowScroll(window.scrollY > 300);
 
-      const sections = ['about', 'projects', 'skills', 'contact'];
+      const sections = ['about', 'projects', 'skills', 'certifications', 'contact'];
       let current = '';
 
       sections.forEach(sectionId => {
@@ -448,73 +448,219 @@ function App() {
           Skills
         </h2>
 
-        <div className="space-y-16">
-          {/* Frontend */}
+        <div className="space-y-20">
+
+          {/* Technical Skills */}
           <div>
-            <h3 className="text-xl font-semibold text-violet-300 mb-6 flex items-center gap-3">
-              <span>⚡</span> Frontend
+            <h3 className="text-2xl font-semibold text-white mb-10 flex items-center gap-4">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 flex items-center justify-center shadow-lg shadow-violet-500/30">
+                ⚙️
+              </div>
+              Technical Skills
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-              {['React', 'JavaScript', 'HTML', 'CSS'].map((skill, i) => {
-                const icons = [
-                  "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg",
-                  "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-plain.svg",
-                  "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg",
-                  "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
-                ];
-                return (
-                  <div key={i} className="flex flex-col items-center bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-violet-500/50 transition">
-                    <img src={icons[i]} alt={skill} className="w-14 h-14 mb-4" />
-                    <span className="text-white font-medium">{skill}</span>
-                  </div>
-                );
-              })}
+
+            <div className="grid md:grid-cols-2 gap-8">
+
+              {/* Web Development */}
+              <div className="group relative bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-1">
+                <h4 className="text-violet-400 font-medium mb-6 text-lg flex items-center gap-2">
+                  🌐 Web Development
+                </h4>
+                <div className="flex flex-wrap gap-3">
+                  {['HTML', 'CSS', 'JavaScript', 'PHP', 'WordPress', 'Responsive Design', 'Elementor'].map(skill => (
+                    <span
+                      key={skill}
+                      className="px-5 py-2.5 bg-white/5 hover:bg-violet-500/10 border border-white/10 hover:border-violet-400 rounded-2xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Frameworks & Libraries */}
+              <div className="group relative bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-1">
+                <h4 className="text-violet-400 font-medium mb-6 text-lg flex items-center gap-2">
+                  🧩 Frameworks & Libraries
+                </h4>
+                <div className="flex flex-wrap gap-3">
+                  {['React.js', 'Laravel', 'Tailwind CSS'].map(skill => (
+                    <span
+                      key={skill}
+                      className="px-5 py-2.5 bg-white/5 hover:bg-violet-500/10 border border-white/10 hover:border-violet-400 rounded-2xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Programming Languages */}
+              <div className="group relative bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-1">
+                <h4 className="text-violet-400 font-medium mb-6 text-lg flex items-center gap-2">
+                  💻 Programming Languages
+                </h4>
+                <div className="flex flex-wrap gap-3">
+                  {['Java', 'C++', 'JavaScript', 'PHP'].map(skill => (
+                    <span
+                      key={skill}
+                      className="px-5 py-2.5 bg-white/5 hover:bg-violet-500/10 border border-white/10 hover:border-violet-400 rounded-2xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tools & Technologies */}
+              <div className="group relative bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-1">
+                <h4 className="text-violet-400 font-medium mb-6 text-lg flex items-center gap-2">
+                  🛠️ Tools & Technologies
+                </h4>
+                <div className="flex flex-wrap gap-3">
+                  {['MySQL', 'Docker', 'Git', 'VS Code', 'Visual Studio', 'IntelliJ IDEA', 'Jira', 'Notion', 'Asana'].map(skill => (
+                    <span
+                      key={skill}
+                      className="px-5 py-2.5 bg-white/5 hover:bg-violet-500/10 border border-white/10 hover:border-violet-400 rounded-2xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
             </div>
           </div>
 
-          {/* Backend & Database */}
+          {/* Soft Skills */}
           <div>
-            <h3 className="text-xl font-semibold text-violet-300 mb-6 flex items-center gap-3">
-              <span>🛢️</span> Backend & Database
+            <h3 className="text-2xl font-semibold text-white mb-10 flex items-center gap-4">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
+                🌟
+              </div>
+              Soft Skills
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-              {['Laravel', 'MySQL'].map((skill, i) => {
-                const icons = [
-                  "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg",
-                  "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
-                ];
-                return (
-                  <div key={i} className="flex flex-col items-center bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-violet-500/50 transition">
-                    <img src={icons[i]} alt={skill} className="w-14 h-14 mb-4" />
-                    <span className="text-white font-medium">{skill}</span>
-                  </div>
-                );
-              })}
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+              {[
+                "Problem Solving",
+                "Team Collaboration",
+                "Communication",
+                "Critical Thinking",
+                "Time Management",
+                "Adaptability",
+                "Debugging",
+                "Project Management",
+                "Attention to Detail",
+                "Continuous Learning",
+                "Creativity",
+                "Leadership"
+              ].map((skill, i) => (
+                <div
+                  key={i}
+                  className="group relative bg-white/5 border border-white/10 hover:border-emerald-400/50 rounded-3xl p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-gradient-to-br hover:from-emerald-500/10 hover:to-cyan-500/10 overflow-hidden"
+                >
+                  <span className="text-gray-300 group-hover:text-white transition-colors font-medium block">
+                    {skill}
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* CMS & Tools */}
+        </div>
+      </section>
+
+
+      {/* Certifications Section */}
+      <section id="certifications" className="scroll-mt-24 relative py-20 px-6 max-w-5xl mx-auto z-10" data-aos="fade-up">
+        <h2 className="text-4xl md:text-5xl text-violet-400 mb-16 text-center font-section tracking-tight">
+          Certifications
+        </h2>
+
+        <div className="space-y-20">
+
+          {/* University Certifications */}
           <div>
-            <h3 className="text-xl font-semibold text-violet-300 mb-6 flex items-center gap-3">
-              <span>🛠️</span> CMS & Tools
+            <h3 className="text-2xl font-semibold text-white mb-10 flex items-center gap-4">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-2xl">
+                🎓
+              </div>
+              Academic Achievements
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
-              {['WordPress', 'Elementor', 'Docker', 'Git'].map((skill, i) => {
-                const icons = [
-                  "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/wordpress/wordpress-plain.svg",
-                  "/skills/elementor.png",
-                  "/skills/docker.png",
-                  "/skills/social.png"
-                ];
-                return (
-                  <div key={i} className="flex flex-col items-center bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-violet-500/50 transition">
-                    <img src={icons[i]} alt={skill} className="w-14 h-14 mb-4" />
-                    <span className="text-white font-medium">{skill}</span>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              {/* Cambridge Card */}
+              <div className="group relative bg-gradient-to-br from-white/5 to-white/5 border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+                <div className="absolute top-6 right-6 text-xs font-mono tracking-widest text-violet-400/70">UNIVERSITY OF CAMBRIDGE</div>
+
+                <div className="space-y-6 mt-8">
+                  {[
+                    { name: "Cambridge Young Learners English (YLE) Flyers", year: "2016" },
+                    { name: "Key English Test (KET) — B1", year: "2016" },
+                    { name: "Preliminary English Test (PET) — B1", year: "2018" },
+                    { name: "First Certificate in English (FCE) — B2", year: "2019" },
+                  ].map((cert, i) => (
+                    <div key={i} className="flex justify-between items-center pb-4 border-b border-white/10 last:border-none last:pb-0">
+                      <span className="text-gray-300 group-hover:text-white transition-colors">{cert.name}</span>
+                      <span className="text-sm font-mono text-violet-400 tabular-nums">{cert.year}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* University of West London Card */}
+              <div className="group relative bg-gradient-to-br from-white/5 to-white/5 border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
+                <div className="absolute top-6 right-6 text-xs font-mono tracking-widest text-violet-400/70">2019</div>
+
+                <div className="mt-12">
+                  <div className="text-xl font-semibold text-white mb-3">University of West London</div>
+                  <div className="text-gray-300 leading-relaxed">
+                    Personal and Professional Communication
                   </div>
-                );
-              })}
+                  <div className="mt-6 inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-400 px-5 py-2 rounded-full text-sm font-medium border border-emerald-500/30">
+                    <span className="text-lg">🏆</span>
+                    Passed with Distinction
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
+
+          {/* LinkedIn Learning Certifications */}
+          <div>
+            <h3 className="text-2xl font-semibold text-white mb-10 flex items-center gap-4">
+              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-fuchsia-500 to-pink-500 flex items-center justify-center text-2xl">
+                📜
+              </div>
+              LinkedIn Learning Certificates
+            </h3>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {[
+                "Succeeding in Web Development: Full Stack and Front End",
+                "Introduction to Web Design and Development",
+                "HTML, CSS and Generative AI: Speed Up Your Process",
+                "WordPress Essential Training (2023)",
+                "WordPress Ecommerce: WooCommerce",
+                "WordPress: SEO",
+                "Technical Writing: Quick Start Guide",
+                "Creating API Documentation"
+              ].map((cert, i) => (
+                <div
+                  key={i}
+                  className="group bg-white/5 border border-white/10 hover:border-violet-400/40 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 flex items-start gap-4"
+                >
+                  <div className="w-6 h-6 rounded-full bg-violet-500/10 flex-shrink-0 flex items-center justify-center mt-0.5 text-violet-400 text-sm group-hover:scale-110 transition-transform">
+                    ✓
+                  </div>
+                  <span className="text-gray-300 group-hover:text-white transition-colors leading-snug">{cert}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
         </div>
       </section>
 
