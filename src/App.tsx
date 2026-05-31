@@ -15,7 +15,7 @@ function App() {
     const handleScroll = () => {
       setShowScroll(window.scrollY > 300);
 
-      const sections = ['about', 'projects', 'skills', 'certifications', 'contact'];
+      const sections = ['about', 'projects', 'experience', 'skills', 'certifications', 'contact'];
       let current = '';
 
       sections.forEach(sectionId => {
@@ -439,6 +439,50 @@ function App() {
               Visit Site →
             </a>
           </div>
+        </div>
+      </section>
+
+      {/* Work Experience Section */}
+      <section id="experience" className="scroll-mt-24 relative py-20 px-6 max-w-5xl mx-auto z-10" data-aos="fade-up">
+        <h2 className="text-4xl md:text-5xl text-violet-400 mb-16 text-center font-section tracking-tight">
+          Work Experience
+        </h2>
+
+        <div className="space-y-12">
+
+          {/* Current Role */}
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 hover:border-violet-400/50 transition-all group">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
+              <div>
+                <h3 className="text-xl font-semibold text-white">Software Engineer Trainee</h3>
+                <p className="text-violet-400">Impresso Ceylon Holdings (Pvt) Ltd</p>
+              </div>
+              <p className="text-gray-500 text-sm mt-1 md:mt-0">Dec 2024 — Present</p>
+            </div>
+            <ul className="space-y-3 text-gray-300 list-disc pl-5">
+              <li>Developing full-stack web applications using React, Laravel, and Tailwind CSS</li>
+              <li>Building and maintaining booking systems and business management tools</li>
+              <li>Collaborating with senior developers on feature implementation and performance optimization</li>
+              <li>Working in Agile environment with sprint planning and iterative development</li>
+            </ul>
+          </div>
+
+          {/* Part-time Role */}
+          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 hover:border-violet-400/50 transition-all group">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
+              <div>
+                <h3 className="text-xl font-semibold text-white">WordPress Developer (Part-time)</h3>
+                <p className="text-violet-400">Engage Lanka</p>
+              </div>
+              <p className="text-gray-500 text-sm mt-1 md:mt-0">Dec 2024 — Apr 2025</p>
+            </div>
+            <ul className="space-y-3 text-gray-300 list-disc pl-5">
+              <li>Developing and customizing responsive websites using WordPress and Elementor</li>
+              <li>Creating modern and user-friendly web experiences for clients</li>
+              <li>Implementing key features and optimizing website performance</li>
+            </ul>
+          </div>
+
         </div>
       </section>
 
