@@ -3,7 +3,7 @@ import AOS from 'aos';
 
 function App() {
   useEffect(() => {
-    AOS.init({ duration: 1000, once: true });
+    AOS.init({ duration: 900, once: true, offset: 80 });
   }, []);
 
   const [showScroll, setShowScroll] = useState(false);
@@ -11,25 +11,24 @@ function App() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
+  const navItems = ['about', 'projects', 'experience', 'skills', 'certifications', 'contact'];
+
   useEffect(() => {
     const handleScroll = () => {
       setShowScroll(window.scrollY > 300);
 
-      const sections = ['about', 'projects', 'experience', 'skills', 'certifications', 'contact'];
       let current = '';
-
-      sections.forEach(sectionId => {
+      navItems.forEach((sectionId) => {
         const section = document.getElementById(sectionId);
-        if (section) {
-          const sectionTop = section.offsetTop;
-          if (window.scrollY >= sectionTop - 100) {
-            current = sectionId;
-          }
+        if (section && window.scrollY >= section.offsetTop - 140) {
+          current = sectionId;
         }
       });
+
       setActiveSection(current);
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -40,17 +39,19 @@ function App() {
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
+
     if (element) {
-      const offset = 80;
+      const offset = 84;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition - bodyRect - offset;
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
+
     setIsMobileMenuOpen(false);
   };
 
@@ -63,7 +64,7 @@ function App() {
       const response = await fetch('https://formspree.io/f/mlgpoery', {
         method: 'POST',
         body: new FormData(form),
-        headers: { 'Accept': 'application/json' }
+        headers: { Accept: 'application/json' },
       });
 
       if (response.ok) {
@@ -78,60 +79,12 @@ function App() {
     }
   };
 
-
-
-  useEffect(() => {
-    const canvas = document.getElementById("matrixRain") as HTMLCanvasElement;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const resizeCanvas = () => {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    };
-
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    const letters = "01<>/{}[]()functionconstletreturnAPIReactJS◉◆▲▼λΣΠΩ∞";
-    const fontSize = 15;
-    let columns = Math.floor(canvas.width / fontSize);
-    let drops: number[] = Array(columns).fill(1);
-
-    const draw = () => {
-      ctx.fillStyle = "rgba(10, 10, 20, 0.11)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      ctx.fillStyle = "#c4b5fd";
-      ctx.font = `${fontSize}px monospace`;
-
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    };
-
-    const interval = setInterval(draw, 55);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener('resize', resizeCanvas);
-    };
-  }, []);
-
   const MatrixRain = () => {
     useEffect(() => {
-      const canvas = document.getElementById("matrixRain") as HTMLCanvasElement;
+      const canvas = document.getElementById('matrixRain') as HTMLCanvasElement;
       if (!canvas) return;
 
-      const ctx = canvas.getContext("2d", { alpha: true });
+      const ctx = canvas.getContext('2d', { alpha: true });
       if (!ctx) return;
 
       const resizeCanvas = () => {
@@ -140,27 +93,35 @@ function App() {
       };
 
       resizeCanvas();
-      window.addEventListener("resize", resizeCanvas);
+      window.addEventListener('resize', resizeCanvas);
 
-      const letters = "01<>/{}[]()functionconstletreturnAPIReactJS◉◆▲▼λΣΠΩ∞≈≠";
+      const letters = '01<>/{}[]()functionconstletreturnAPIReactJS◇◆▲▼λΣΠΩ∞≈≠';
       const fontSize = 15;
       let columns = Math.floor(canvas.width / fontSize);
       let drops: number[] = Array(columns).fill(1);
 
       const draw = () => {
-        ctx.fillStyle = "rgba(10, 10, 20, 0.12)";
+        if (columns !== Math.floor(canvas.width / fontSize)) {
+          columns = Math.floor(canvas.width / fontSize);
+          drops = Array(columns).fill(1);
+        }
+
+        ctx.fillStyle = 'rgba(3, 1, 10, 0.12)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = "#c4b5fd";        // Soft violet
+        ctx.fillStyle = '#c084fc';
+        ctx.shadowColor = '#a855f7';
+        ctx.shadowBlur = 12;
         ctx.font = `${fontSize}px monospace`;
 
         for (let i = 0; i < drops.length; i++) {
           const text = letters[Math.floor(Math.random() * letters.length)];
           ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-          if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+          if (drops[i] * fontSize > canvas.height && Math.random() > 0.974) {
             drops[i] = 0;
           }
+
           drops[i]++;
         }
       };
@@ -169,643 +130,594 @@ function App() {
 
       return () => {
         clearInterval(interval);
-        window.removeEventListener("resize", resizeCanvas);
+        window.removeEventListener('resize', resizeCanvas);
       };
     }, []);
 
-    return (
-      <canvas
-        id="matrixRain"
-        className="absolute inset-0 w-full h-full opacity-20 pointer-events-none z-0"
-      />
-    );
+    return <canvas id="matrixRain" className="absolute inset-0 z-0 h-full w-full opacity-25 pointer-events-none" />;
   };
 
+  const projects = [
+    {
+      title: 'Procurio General Trading Website',
+      image: '/projects/procurio.png',
+      alt: 'Procurio',
+      description:
+        'A responsive WordPress website built for Procurio General Trading LLC, a Dubai-based hospitality supplier. The site highlights their hotel equipment and operating supplies, features an About section, partner showcase, contact form, and newsletter-all powered by a custom WordPress theme.',
+      tags: ['WordPress', 'Elementor'],
+      href: 'https://procurio-me.com',
+      linkText: 'Visit Website',
+    },
+    {
+      title: 'Lotus n Loom Website',
+      image: '/projects/lotusnloom.png',
+      alt: 'Lotus n Loom',
+      description:
+        'A modern and elegant website developed for Lotus n Loom, showcasing handcrafted products with a clean UI, responsive design, and smooth user experience tailored for an online brand presence.',
+      tags: ['WordPress', 'WooCommerce', 'Elementor'],
+      href: 'https://lotusnloom.com/',
+      linkText: 'Visit Website',
+    },
+    {
+      title: 'Appointment Booking Platform',
+      image: '/projects/trypod.png',
+      alt: 'Trypod Booking',
+      description:
+        'A customer-friendly booking system with Laravel + React + Tailwind stack. Includes filters, service cart, and store pages.',
+      tags: ['React', 'Laravel', 'TailwindCSS'],
+      href: 'https://trypod.lk/',
+      linkText: 'Visit Site',
+    },
+  ];
+
+  const technicalSkills = [
+    {
+      title: 'Web Development',
+      skills: ['HTML', 'CSS', 'JavaScript', 'PHP', 'WordPress', 'Responsive Design', 'Elementor'],
+    },
+    {
+      title: 'Frameworks & Libraries',
+      skills: ['React.js', 'Laravel', 'Tailwind CSS'],
+    },
+    {
+      title: 'Programming Languages',
+      skills: ['Java', 'C++', 'JavaScript', 'PHP'],
+    },
+    {
+      title: 'Tools & Technologies',
+      skills: ['MySQL', 'Docker', 'Git', 'VS Code', 'Visual Studio', 'IntelliJ IDEA', 'Jira', 'Notion', 'Asana'],
+    },
+  ];
+
+  const softSkills = [
+    'Problem Solving',
+    'Critical Thinking',
+    'Attention to Detail',
+    'Strategic Planning',
+    'Project Coordination',
+    'Project Management',
+    'Leadership',
+    'Team Collaboration',
+    'Conflict Resolution',
+    'Communication',
+    'Strong Verbal Communication',
+    'Strong Written Communication',
+    'Time Management',
+    'Meeting Deadlines',
+    'Multitasking',
+    'Adaptability',
+    'Continuous Learning',
+    'Risk Management',
+    'Process Improvement',
+  ];
+
+  const linkedinCertificates = [
+    'Succeeding in Web Development: Full Stack and Front End',
+    'Introduction to Web Design and Development',
+    'HTML, CSS and Generative AI: Speed Up Your Process',
+    'WordPress Essential Training (2023)',
+    'WordPress Ecommerce: WooCommerce',
+    'WordPress: SEO',
+    'Technical Writing: Quick Start Guide',
+    'Creating API Documentation',
+  ];
+
   return (
-    <div className="relative min-h-screen bg-black text-white font-sans overflow-hidden selection:bg-violet-600 selection:text-white">
-      {/* Background Effects */}
-      <div className="absolute w-[500px] h-[500px] bg-violet-600 rounded-full blur-[250px] opacity-30 top-[-150px] left-[-150px] animate-pulse z-0" />
-      <div className="absolute w-[300px] h-[300px] bg-fuchsia-500 rounded-full blur-[200px] opacity-20 bottom-[-100px] right-[-100px] z-0" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle,_rgba(255,255,255,0.05)_1px,_transparent_1px)] bg-[size:20px_20px] z-0 pointer-events-none" />
-      <div className="absolute top-1/3 left-1/2 w-[300px] h-[300px] bg-white opacity-[0.04] blur-[100px] rounded-full -translate-x-1/2 -translate-y-1/2 z-0" />
+    <div className="relative min-h-screen overflow-hidden bg-[#030108] text-white selection:bg-purple-500 selection:text-white">
 
-      {/* Header */}
-      <header className="fixed top-0 left-0 w-full z-50 p-5 sm:p-6 backdrop-blur-sm bg-black/80 border-b border-white/10 flex justify-between items-center">
-        <h1 className="text-2xl sm:text-3xl tracking-widest text-violet-400 font-logo">
-          DHEESHANI.DEV
-        </h1>
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(168,85,247,0.34),transparent_28%),radial-gradient(circle_at_80%_10%,rgba(217,70,239,0.2),transparent_24%),linear-gradient(180deg,#030108_0%,#090014_48%,#030108_100%)]" />
+        <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(rgba(255,255,255,.22)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.22)_1px,transparent_1px)] bg-[size:56px_56px]" />
+        <div className="absolute left-1/2 top-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-purple-600/20 blur-[130px] animate-[floatGlow_8s_ease-in-out_infinite]" />
+        <div className="absolute bottom-[-180px] right-[-120px] h-[460px] w-[460px] rounded-full bg-fuchsia-500/20 blur-[120px] animate-[floatGlow_10s_ease-in-out_infinite_reverse]" />
+      </div>
 
-        {/* Desktop Nav */}
-        <nav className="hidden sm:flex items-center gap-10 text-sm uppercase tracking-[2px] font-medium">
-          {['about', 'projects', 'skills', 'contact'].map((section) => (
-            <button
-              key={section}
-              onClick={() => scrollToSection(section)}
-              className={`relative py-2 px-1 transition-all duration-300 hover:-translate-y-0.5 
-        ${activeSection === section
-                  ? 'text-white'
-                  : 'text-gray-400 hover:text-white'
-                }`}
-            >
-              {section.charAt(0).toUpperCase() + section.slice(1)}
 
-              <span className={`absolute left-1/2 -bottom-1 h-[2px] bg-gradient-to-r from-violet-400 to-fuchsia-500 
-        transition-all duration-500 -translate-x-1/2
-        ${activeSection === section
-                  ? 'w-full shadow-[0_0_8px_#a855f7]'
-                  : 'w-0 group-hover:w-full'
-                }`}
-              />
-
-              {activeSection === section && (
-                <span className="absolute inset-0 bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 rounded-lg -z-10 blur-sm" />
-              )}
-            </button>
-          ))}
-        </nav>
-
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="sm:hidden text-3xl text-violet-400 hover:text-white transition-all duration-300 active:scale-90 z-50"
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? '✕' : '☰'}
-        </button>
-      </header>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-2xl z-[100] sm:hidden flex items-center justify-center">
-
+      <header className="fixed left-1/2 top-4 z-50 w-[calc(100%-2rem)] max-w-7xl -translate-x-1/2 rounded-full border border-white/10 bg-black/55 px-5 py-3 shadow-2xl shadow-purple-950/40 backdrop-blur-2xl">
+        <div className="flex items-center justify-between">
           <button
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="absolute top-8 right-8 text-5xl text-violet-400 hover:text-white transition-all duration-300 z-10"
+            onClick={scrollToTop}
+            className="font-display text-lg sm:text-xl tracking-[0.24em] text-white"
+            aria-label="Go to top"
           >
-            ✕
+            <span className="text-purple-400">D</span>HEESHANI
           </button>
 
-          <div className="flex flex-col items-center justify-center space-y-10 text-4xl font-light text-center">
-            {['about', 'projects', 'skills', 'contact'].map((section) => (
+          <nav className="hidden lg:flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
+            {navItems.map((section) => (
               <button
                 key={section}
                 onClick={() => scrollToSection(section)}
-                className="relative px-12 py-5 text-white hover:text-violet-400 
-                     transition-all duration-300 hover:scale-110 active:scale-95
-                     hover:bg-white/10 rounded-3xl w-80 group"
+                className={`rounded-full px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 ${activeSection === section
+                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/30'
+                  : 'text-zinc-400 hover:bg-white/10 hover:text-white'
+                  }`}
               >
-                {section.charAt(0).toUpperCase() + section.slice(1)}
+                {section}
+              </button>
+            ))}
+          </nav>
 
-                <span className="absolute bottom-4 left-1/2 -translate-x-1/2 h-[3px] w-0 bg-gradient-to-r from-violet-400 to-fuchsia-500 
-                           group-hover:w-16 transition-all duration-300" />
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="grid h-11 w-11 place-items-center rounded-full border border-purple-400/30 bg-purple-500/10 text-2xl text-purple-200 transition hover:bg-purple-500/20 lg:hidden"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? 'x' : '='}
+          </button>
+        </div>
+      </header>
+
+
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[80] bg-black/95 px-8 py-28 backdrop-blur-2xl lg:hidden">
+          <div className="flex h-full flex-col justify-center gap-5">
+            {navItems.map((section, index) => (
+              <button
+                key={section}
+                onClick={() => scrollToSection(section)}
+                className="group flex items-center justify-between rounded-3xl border border-white/10 bg-white/[0.04] px-6 py-5 text-left transition hover:border-purple-400/60 hover:bg-purple-500/10"
+                style={{ animation: `fadeInUp .55s ease ${index * 70}ms both` }}
+              >
+                <span className="font-display text-3xl capitalize text-white">{section}</span>
+                <span className="text-purple-300 transition group-hover:translate-x-2">→</span>
               </button>
             ))}
           </div>
         </div>
       )}
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex flex-col justify-center items-center px-6 text-center bg-gradient-to-br from-black via-slate-950 to-black overflow-hidden">
+
+      <section className="relative z-10 min-h-screen overflow-hidden px-6 pt-32">
         <MatrixRain />
 
+        <div className="relative z-10 mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl items-center gap-14 py-20 lg:grid-cols-[1.1fr_.9fr]">
+          <div>
+            <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-purple-400/30 bg-purple-500/10 px-4 py-2 text-sm text-purple-100 shadow-lg shadow-purple-950/40">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_18px_#34d399]" />
+              Open to opportunities
+            </div>
 
-        <div className="absolute w-[450px] h-[450px] bg-violet-500 opacity-20 blur-3xl top-[-120px] left-[-120px] animate-pulse" />
-        <div className="absolute w-[300px] h-[300px] bg-pink-500 opacity-10 blur-3xl bottom-[-60px] right-[-80px] animate-pulse" />
-        <div className="absolute inset-0 bg-[url('/particles.svg')] opacity-[0.04] bg-cover bg-center pointer-events-none z-0" />
+            <h1 className="font-display text-6xl font-black leading-[0.92] tracking-tight sm:text-7xl lg:text-8xl">
+              Hi, I'm{' '}
+              <span className="block bg-gradient-to-r from-purple-300 via-fuchsia-300 to-white bg-clip-text text-transparent animate-[shine_4s_linear_infinite]">
+                Dheeshani
+              </span>
+            </h1>
 
+            <p className="mt-8 max-w-2xl text-lg leading-8 text-zinc-300 sm:text-xl">
+              Computer Science Graduate & Full-Stack Software Engineer crafting scalable web applications and delightful
+              digital experiences with React, Laravel, and WordPress.
+            </p>
 
+            <div className="mt-10 flex flex-wrap gap-4">
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="group rounded-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-500 px-8 py-4 font-bold text-white shadow-2xl shadow-purple-600/30 transition hover:-translate-y-1 hover:shadow-purple-500/50"
+              >
+                See My Work <span className="inline-block transition group-hover:translate-x-1">→</span>
+              </button>
 
-        <div className="z-10 max-w-4xl">
-          <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 text-sm mb-6">
-            <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            Open to opportunities
+              <a
+                href="./Dheeshani_CV.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-white/15 bg-white/[0.04] px-8 py-4 font-bold text-white backdrop-blur transition hover:-translate-y-1 hover:border-purple-300/70 hover:bg-purple-500/10"
+              >
+                Download CV
+              </a>
+            </div>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-500 to-pink-500 font-hero tracking-tight">
-            Hi, I’m Dheeshani
-          </h1>
-          <p className="mt-6 text-lg sm:text-xl text-gray-300 font-light max-w-2xl mx-auto">
-            Computer Science Graduate & Full-Stack Software Engineer crafting scalable web applications and delightful digital experiences with React, Laravel, and WordPress.
-          </p>
+          <div className="relative mx-auto w-full max-w-md">
+            <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-purple-600/40 via-fuchsia-500/20 to-transparent blur-2xl" />
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.05] p-5 shadow-2xl shadow-purple-950/50 backdrop-blur-2xl">
+              <div className="aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-purple-300/20">
+                <img src="/skills/dp.png" alt="Dheeshani" className="h-full w-full object-cover grayscale-[20%] transition duration-700 hover:scale-105 hover:grayscale-0" />
+              </div>
 
-
-
-
-          <div className="mt-12 flex flex-wrap justify-center gap-5 sm:gap-6">
-            <button
-              onClick={() => scrollToSection('projects')}
-              className="px-8 py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-full font-semibold shadow-lg hover:scale-105 transition-all active:scale-95"
-            >
-              See My Work
-            </button>
-            <a
-              href="./Dheeshani_CV.pdf"
-              target="_blank"
-              className="px-8 py-4 border border-violet-500/60 hover:bg-violet-950/40 rounded-full transition-all"
-            >
-              Download CV
-            </a>
+              <div className="mt-5 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
+                  <p className="font-display text-3xl text-purple-300">3-4+</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">Years Experience</p>
+                </div>
+                <div className="rounded-2xl border border-white/10 bg-black/30 p-4">
+                  <p className="font-display text-2xl text-purple-300">Full-Stack</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.2em] text-zinc-400">React / Laravel / WordPress</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="scroll-mt-24 relative pt-24 pb-32 px-6 max-w-6xl mx-auto z-10" data-aos="fade-up">
-        <h2 className="text-4xl md:text-5xl text-violet-400 mb-16 text-center md:text-left font-section tracking-tight">
-          About Me
-        </h2>
 
+      <section id="about" className="relative z-10 mx-auto max-w-7xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
+        <div className="mb-12">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">About Me</p>
+          <h2 className="font-display text-4xl font-black text-white md:text-6xl">I build clean digital products with personality.</h2>
+        </div>
 
-        <div className="grid md:grid-cols-5 gap-10 md:gap-16 items-center">
-          <div className="md:col-span-2 relative">
-            <div className="relative rounded-3xl overflow-hidden border-4 border-violet-600/40 shadow-2xl aspect-square max-w-xs mx-auto md:mx-0">
-              <img
-                src="/skills/dp.png"
-                alt="Dheeshani"
-                className="object-cover w-full h-full transition-transform duration-700 hover:scale-110"
-              />
-            </div>
-
-            <div className="mt-8 grid grid-cols-2 gap-4 text-center max-w-xs mx-auto md:mx-0">
-              <div className="bg-white/5 backdrop-blur rounded-2xl p-5 border border-white/10">
-                <div className="text-3xl font-bold text-violet-400">3–4+</div>
-                <div className="text-sm text-gray-400 mt-1">Years Experience</div>
-              </div>
-              <div className="bg-white/5 backdrop-blur rounded-2xl p-5 border border-white/10">
-                <div className="text-3xl font-bold text-violet-400">Full-Stack</div>
-                <div className="text-sm text-gray-400 mt-1">React • Laravel • WordPress</div>
-              </div>
-            </div>
+        <div className="grid gap-6 lg:grid-cols-[.8fr_1.2fr]">
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 backdrop-blur-xl">
+            <p className="text-lg leading-8 text-zinc-300">
+              I'm a passionate <strong className="text-purple-200">BSc (Hons) Computer Science graduate</strong> from Staffordshire University with
+              <strong className="text-purple-200"> Second Class Honours (First Division)</strong>, specializing in modern full-stack web development and creating impactful digital experiences through scalable and user-focused applications.
+            </p>
           </div>
 
-          <div className="md:col-span-3 space-y-8 text-gray-300">
-            <p className="text-lg leading-relaxed">
-              I'm a passionate <strong className="text-violet-300">BSc (Hons) Computer Science graduate</strong> from Staffordshire University with
-              <strong className="text-violet-300"> Second Class Honours (First Division)</strong>, specializing in modern full-stack web development and creating impactful digital experiences through scalable and user-focused applications.
-            </p>
-
-            <p className="leading-relaxed">
+          <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-purple-500/10 to-white/[0.03] p-8 backdrop-blur-xl">
+            <p className="leading-8 text-zinc-300">
               I work across modern full-stack technologies including <strong>React</strong>, <strong>Laravel</strong>, <strong>WordPress</strong>, and the JavaScript/TypeScript ecosystem.
               From dynamic booking platforms to elegant eCommerce websites, I enjoy creating fast, scalable, and maintainable digital products with excellent user experiences.
             </p>
-
-            <div className="grid sm:grid-cols-2 gap-6 pt-4">
-              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-7 border border-white/10 hover:border-violet-500/50 transition">
-                <h4 className="text-lg font-semibold text-violet-300 mb-4">Core Expertise</h4>
-                <ul className="text-sm space-y-2.5 text-gray-300">
-                  <li>• Full-stack development (React + Laravel)</li>
-                  <li>• WordPress & WooCommerce development</li>
-                  <li>• REST APIs & backend architecture</li>
-                  <li>• Responsive & modern UI design</li>
-                </ul>
-              </div>
-
-              <div className="bg-white/5 backdrop-blur-md rounded-2xl p-7 border border-white/10 hover:border-violet-500/50 transition">
-                <h4 className="text-lg font-semibold text-violet-300 mb-4">What I Deliver</h4>
-                <ul className="text-sm space-y-2.5 text-gray-300">
-                  <li>• Scalable and maintainable code</li>
-                  <li>• High-performance solutions</li>
-                  <li>• Clean, pixel-perfect interfaces</li>
-                  <li>• Great user experience</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="pt-6">
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="inline-flex items-center gap-3 text-violet-400 hover:text-violet-300 transition group text-lg"
-              >
-                Let's work together
-                <span className="group-hover:translate-x-2 transition">→</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="scroll-mt-24 relative pt-20 pb-32 px-6 max-w-7xl mx-auto z-10" data-aos="fade-up">
-        <h2 className="text-4xl md:text-5xl text-violet-400 mb-16 text-center font-section tracking-tight">
-          Featured Projects
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
-          <div className="bg-white/5 border border-white/10 rounded-3xl shadow-xl backdrop-blur-md p-8 flex flex-col min-h-[480px] transition-all hover:-translate-y-3 hover:shadow-violet-500/40 duration-300 group">
-            <img src="/projects/procurio.png" alt="Procurio" className="w-full h-52 object-cover rounded-2xl mb-6 group-hover:scale-[1.03] transition-transform" />
-            <h4 className="text-2xl font-bold text-white mb-3">Procurio General Trading Website</h4>
-            <p className="text-gray-300 text-sm flex-1 leading-relaxed">
-              A responsive WordPress website built for Procurio General Trading LLC, a Dubai‑based hospitality supplier. The site highlights their hotel equipment and operating supplies, features an About section, partner showcase, contact form, and newsletter—all powered by a custom WordPress theme.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              <span className="text-xs bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full">#WordPress</span>
-              <span className="text-xs bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full">#Elementor</span>
-            </div>
-            <a href="https://procurio-me.com" target="_blank" rel="noreferrer" className="mt-6 text-violet-400 hover:text-violet-300 font-medium inline-flex items-center gap-2">
-              Visit Website →
-            </a>
           </div>
 
-          {/* Lotus n Loom Project */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl shadow-xl backdrop-blur-md p-8 flex flex-col min-h-[480px] transition-all hover:-translate-y-3 hover:shadow-violet-500/40 duration-300 group">
-            <img src="/projects/lotusnloom.png" alt="Lotus n Loom" className="w-full h-52 object-cover rounded-2xl mb-6 group-hover:scale-[1.03] transition-transform" />
-            <h4 className="text-2xl font-bold text-white mb-3">Lotus n Loom Website</h4>
-            <p className="text-gray-300 text-sm flex-1 leading-relaxed">
-              A modern and elegant website developed for Lotus n Loom, showcasing handcrafted products with a clean UI, responsive design, and smooth user experience tailored for an online brand presence.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              <span className="text-xs bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full">#WordPress</span>
-              <span className="text-xs bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full">#WooCommerce</span>
-              <span className="text-xs bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full">#Elementor</span>
-            </div>
-            <a href="https://lotusnloom.com/" target="_blank" rel="noreferrer" className="mt-6 text-violet-400 hover:text-violet-300 font-medium inline-flex items-center gap-2">
-              Visit Website →
-            </a>
-          </div>
-
-          {/* Trypod Project */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl shadow-xl backdrop-blur-md p-8 flex flex-col min-h-[480px] transition-all hover:-translate-y-3 hover:shadow-violet-500/40 duration-300 group">
-            <img src="/projects/trypod.png" alt="Trypod Booking" className="w-full h-52 object-cover rounded-2xl mb-6 group-hover:scale-[1.03] transition-transform" />
-            <h4 className="text-2xl font-bold text-white mb-3">Appointment Booking Platform</h4>
-            <p className="text-gray-300 text-sm flex-1 leading-relaxed">
-              A customer-friendly booking system with Laravel + React + Tailwind stack. Includes filters, service cart, and store pages.
-            </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              <span className="text-xs bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full">#React</span>
-              <span className="text-xs bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full">#Laravel</span>
-              <span className="text-xs bg-violet-500/20 text-violet-300 px-3 py-1 rounded-full">#TailwindCSS</span>
-            </div>
-            <a href="https://trypod.lk/" target="_blank" rel="noreferrer" className="mt-6 text-violet-400 hover:text-violet-300 font-medium inline-flex items-center gap-2">
-              Visit Site →
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Work Experience Section */}
-      <section id="experience" className="scroll-mt-24 relative py-20 px-6 max-w-5xl mx-auto z-10" data-aos="fade-up">
-        <h2 className="text-4xl md:text-5xl text-violet-400 mb-16 text-center font-section tracking-tight">
-          Work Experience
-        </h2>
-
-        <div className="space-y-12">
-
-          {/* Current Role */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 hover:border-violet-400/50 transition-all group">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
-              <div>
-                <h3 className="text-xl font-semibold text-white">Software Engineer Trainee</h3>
-                <p className="text-violet-400">Impresso Ceylon Holdings (Pvt) Ltd</p>
-              </div>
-              <p className="text-gray-500 text-sm mt-1 md:mt-0">Dec 2024 — Present</p>
-            </div>
-            <ul className="space-y-3 text-gray-300 list-disc pl-5">
-              <li>Developing full-stack web applications using React, Laravel, and Tailwind CSS</li>
-              <li>Building and maintaining booking systems and business management tools</li>
-              <li>Collaborating with senior developers on feature implementation and performance optimization</li>
-              <li>Working in Agile environment with sprint planning and iterative development</li>
+          <div className="rounded-[2rem] border border-white/10 bg-black/30 p-8">
+            <h4 className="mb-5 font-display text-2xl text-purple-200">Core Expertise</h4>
+            <ul className="space-y-3 text-zinc-300">
+              <li>Full-stack development (React + Laravel)</li>
+              <li>WordPress & WooCommerce development</li>
+              <li>REST APIs & backend architecture</li>
+              <li>Responsive & modern UI design</li>
             </ul>
           </div>
 
-          {/* Part-time Role */}
-          <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 hover:border-violet-400/50 transition-all group">
-            <div className="flex flex-col md:flex-row md:justify-between md:items-start mb-6">
-              <div>
-                <h3 className="text-xl font-semibold text-white">WordPress Developer (Part-time)</h3>
-                <p className="text-violet-400">Engage Lanka</p>
-              </div>
-              <p className="text-gray-500 text-sm mt-1 md:mt-0">Dec 2024 — Apr 2025</p>
-            </div>
-            <ul className="space-y-3 text-gray-300 list-disc pl-5">
-              <li>Developing and customizing responsive websites using WordPress and Elementor</li>
-              <li>Creating modern and user-friendly web experiences for clients</li>
-              <li>Implementing key features and optimizing website performance</li>
+          <div className="rounded-[2rem] border border-white/10 bg-black/30 p-8">
+            <h4 className="mb-5 font-display text-2xl text-purple-200">What I Deliver</h4>
+            <ul className="space-y-3 text-zinc-300">
+              <li>Scalable and maintainable code</li>
+              <li>High-performance solutions</li>
+              <li>Clean, pixel-perfect interfaces</li>
+              <li>Great user experience</li>
             </ul>
-          </div>
 
+            <button
+              onClick={() => scrollToSection('contact')}
+              className="mt-8 inline-flex items-center gap-3 rounded-full border border-purple-400/40 px-5 py-3 font-semibold text-purple-200 transition hover:bg-purple-500/15"
+            >
+              Let's work together <span>→</span>
+            </button>
+          </div>
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" className="scroll-mt-24 z-10 relative py-20 px-6 max-w-5xl mx-auto" data-aos="fade-up">
-        <h2 className="text-4xl md:text-5xl text-violet-400 mb-16 text-center font-section tracking-tight">
-          Skills
-        </h2>
 
-        <div className="space-y-20">
+      <section id="projects" className="relative z-10 mx-auto max-w-7xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">Selected Work</p>
+          <h2 className="font-display text-4xl font-black text-white md:text-6xl">Featured Projects</h2>
+        </div>
 
-          {/* Technical Skills */}
-          <div>
-            <h3 className="text-2xl font-semibold text-white mb-10 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-500 via-fuchsia-500 to-pink-500 flex items-center justify-center shadow-lg shadow-violet-500/30">
-                ⚙️
+        <div className="grid gap-7 lg:grid-cols-3">
+          {projects.map((project, index) => (
+            <article
+              key={project.title}
+              className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.04] p-4 backdrop-blur-xl transition duration-500 hover:-translate-y-3 hover:border-purple-300/50 hover:shadow-2xl hover:shadow-purple-700/20"
+              style={{ animation: `fadeInUp .7s ease ${index * 120}ms both` }}
+            >
+              <div className="relative h-56 overflow-hidden rounded-[1.45rem]">
+                <img src={project.image} alt={project.alt} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
               </div>
-              Technical Skills
-            </h3>
 
-            <div className="grid md:grid-cols-2 gap-8">
+              <div className="p-4">
+                <h3 className="font-display text-2xl text-white">{project.title}</h3>
+                <p className="mt-4 min-h-[150px] text-sm leading-7 text-zinc-300">{project.description}</p>
 
-              {/* Web Development */}
-              <div className="group relative bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-1">
-                <h4 className="text-violet-400 font-medium mb-6 text-lg flex items-center gap-2">
-                  🌐 Web Development
-                </h4>
-                <div className="flex flex-wrap gap-3">
-                  {['HTML', 'CSS', 'JavaScript', 'PHP', 'WordPress', 'Responsive Design', 'Elementor'].map(skill => (
-                    <span
-                      key={skill}
-                      className="px-5 py-2.5 bg-white/5 hover:bg-violet-500/10 border border-white/10 hover:border-violet-400 rounded-2xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
-                    >
-                      {skill}
+                <div className="mt-5 flex flex-wrap gap-2">
+                  {project.tags.map((tag) => (
+                    <span key={tag} className="rounded-full border border-purple-300/20 bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-200">
+                      #{tag}
                     </span>
                   ))}
                 </div>
-              </div>
 
-              {/* Frameworks & Libraries */}
-              <div className="group relative bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-1">
-                <h4 className="text-violet-400 font-medium mb-6 text-lg flex items-center gap-2">
-                  🧩 Frameworks & Libraries
-                </h4>
-                <div className="flex flex-wrap gap-3">
-                  {['React.js', 'Laravel', 'Tailwind CSS'].map(skill => (
-                    <span
-                      key={skill}
-                      className="px-5 py-2.5 bg-white/5 hover:bg-violet-500/10 border border-white/10 hover:border-violet-400 rounded-2xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Programming Languages */}
-              <div className="group relative bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-1">
-                <h4 className="text-violet-400 font-medium mb-6 text-lg flex items-center gap-2">
-                  💻 Programming Languages
-                </h4>
-                <div className="flex flex-wrap gap-3">
-                  {['Java', 'C++', 'JavaScript', 'PHP'].map(skill => (
-                    <span
-                      key={skill}
-                      className="px-5 py-2.5 bg-white/5 hover:bg-violet-500/10 border border-white/10 hover:border-violet-400 rounded-2xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tools & Technologies */}
-              <div className="group relative bg-gradient-to-br from-white/5 to-transparent border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-1">
-                <h4 className="text-violet-400 font-medium mb-6 text-lg flex items-center gap-2">
-                  🛠️ Tools & Technologies
-                </h4>
-                <div className="flex flex-wrap gap-3">
-                  {['MySQL', 'Docker', 'Git', 'VS Code', 'Visual Studio', 'IntelliJ IDEA', 'Jira', 'Notion', 'Asana'].map(skill => (
-                    <span
-                      key={skill}
-                      className="px-5 py-2.5 bg-white/5 hover:bg-violet-500/10 border border-white/10 hover:border-violet-400 rounded-2xl text-sm transition-all duration-300 hover:scale-105 hover:shadow-md"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Soft Skills */}
-          <div>
-            <h3 className="text-2xl font-semibold text-white mb-10 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/30">
-                🌟
-              </div>
-              Soft Skills
-            </h3>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-              {[
-                "Problem Solving",
-                "Critical Thinking",
-                "Attention to Detail",
-                "Strategic Planning",
-                "Project Coordination",
-                "Project Management",
-                "Leadership",
-                "Team Collaboration",
-                "Conflict Resolution",
-                "Communication",
-                "Strong Verbal Communication",
-                "Strong Written Communication",
-                "Time Management",
-                "Meeting Deadlines",
-                "Multitasking",
-                "Adaptability",
-                "Continuous Learning",
-                "Risk Management",
-                "Process Improvement"
-              ].map((skill, i) => (
-                <div
-                  key={i}
-                  className="group relative bg-white/5 border border-white/10 hover:border-emerald-400/50 rounded-3xl p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:bg-gradient-to-br hover:from-emerald-500/10 hover:to-cyan-500/10 overflow-hidden"
+                <a
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-6 inline-flex items-center gap-2 font-bold text-purple-200 transition hover:text-white"
                 >
-                  <span className="text-gray-300 group-hover:text-white transition-colors font-medium block">
+                  {project.linkText} <span className="transition group-hover:translate-x-1">→</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+
+      <section id="experience" className="relative z-10 mx-auto max-w-5xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">Career Path</p>
+          <h2 className="font-display text-4xl font-black text-white md:text-6xl">Work Experience</h2>
+        </div>
+
+        <div className="relative space-y-8 before:absolute before:left-4 before:top-0 before:h-full before:w-px before:bg-gradient-to-b before:from-purple-400 before:via-purple-900 before:to-transparent md:before:left-1/2">
+          {[
+            {
+              role: 'Software Engineer Trainee',
+              company: 'Impresso Ceylon Holdings (Pvt) Ltd',
+              date: 'Dec 2024 - Present',
+              points: [
+                'Developing full-stack web applications using React, Laravel, and Tailwind CSS',
+                'Building and maintaining booking systems and business management tools',
+                'Collaborating with senior developers on feature implementation and performance optimization',
+                'Working in Agile environment with sprint planning and iterative development',
+              ],
+            },
+            {
+              role: 'WordPress Developer (Part-time)',
+              company: 'Engage Lanka',
+              date: 'Dec 2024 - Apr 2025',
+              points: [
+                'Developing and customizing responsive websites using WordPress and Elementor',
+                'Creating modern and user-friendly web experiences for clients',
+                'Implementing key features and optimizing website performance',
+              ],
+            },
+          ].map((job, index) => (
+            <div key={job.role} className={`relative pl-12 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:pl-0' : 'md:ml-auto md:pl-12'}`}>
+              <span className={`absolute top-8 h-4 w-4 rounded-full bg-purple-300 shadow-[0_0_24px_#c084fc] ${index % 2 === 0 ? 'left-[9px] md:-right-2 md:left-auto' : 'left-[9px] md:-left-2'}`} />
+              <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-8 backdrop-blur-xl transition hover:border-purple-300/50 hover:bg-purple-500/10">
+                <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-purple-300">{job.date}</p>
+                <h3 className="font-display text-2xl text-white">{job.role}</h3>
+                <p className="mt-1 text-purple-200">{job.company}</p>
+                <ul className="mt-6 space-y-3 text-sm leading-7 text-zinc-300">
+                  {job.points.map((point) => (
+                    <li key={point}>{point}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+
+      <section id="skills" className="relative z-10 mx-auto max-w-6xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">Capabilities</p>
+          <h2 className="font-display text-4xl font-black text-white md:text-6xl">Skills</h2>
+        </div>
+
+        <div className="mb-16 overflow-hidden rounded-full border border-white/10 bg-white/[0.04] py-4">
+          <div className="flex w-max animate-[marquee_28s_linear_infinite] gap-4 px-4">
+            {[...technicalSkills.flatMap((item) => item.skills), ...technicalSkills.flatMap((item) => item.skills)].map((skill, index) => (
+              <span key={`${skill}-${index}`} className="rounded-full bg-purple-500/15 px-5 py-2 text-sm font-semibold text-purple-100">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2">
+          {technicalSkills.map((group) => (
+            <div key={group.title} className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 backdrop-blur-xl transition hover:border-purple-300/50">
+              <h3 className="mb-6 font-display text-2xl text-purple-200">{group.title}</h3>
+              <div className="flex flex-wrap gap-3">
+                {group.skills.map((skill) => (
+                  <span key={skill} className="rounded-full border border-white/10 bg-black/30 px-5 py-2.5 text-sm text-zinc-200 transition hover:-translate-y-1 hover:border-purple-300/50 hover:text-white">
                     {skill}
                   </span>
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          ))}
+        </div>
 
+        <div className="mt-16">
+          <h3 className="mb-8 font-display text-3xl text-white">Soft Skills</h3>
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            {softSkills.map((skill) => (
+              <div key={skill} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-center text-sm font-semibold text-zinc-300 transition hover:-translate-y-1 hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white">
+                {skill}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
 
-      {/* Certifications Section */}
-      <section id="certifications" className="scroll-mt-24 relative py-20 px-6 max-w-5xl mx-auto z-10" data-aos="fade-up">
-        <h2 className="text-4xl md:text-5xl text-violet-400 mb-16 text-center font-section tracking-tight">
-          Certifications
-        </h2>
+      <section id="certifications" className="relative z-10 mx-auto max-w-6xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">Credentials</p>
+          <h2 className="font-display text-4xl font-black text-white md:text-6xl">Certifications</h2>
+        </div>
 
-        <div className="space-y-20">
-
-          {/* University Certifications */}
-          <div>
-            <h3 className="text-2xl font-semibold text-white mb-10 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center text-2xl">
-                🎓
-              </div>
-              Academic Achievements
-            </h3>
-
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Cambridge Card */}
-              <div className="group relative bg-gradient-to-br from-white/5 to-white/5 border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                <div className="absolute top-6 right-6 text-xs font-mono tracking-widest text-violet-400/70">UNIVERSITY OF CAMBRIDGE</div>
-
-                <div className="space-y-6 mt-8">
-                  {[
-                    { name: "Cambridge Young Learners English (YLE) Flyers", year: "2016" },
-                    { name: "Key English Test (KET) — B1", year: "2016" },
-                    { name: "Preliminary English Test (PET) — B1", year: "2018" },
-                    { name: "First Certificate in English (FCE) — B2", year: "2019" },
-                  ].map((cert, i) => (
-                    <div key={i} className="flex justify-between items-center pb-4 border-b border-white/10 last:border-none last:pb-0">
-                      <span className="text-gray-300 group-hover:text-white transition-colors">{cert.name}</span>
-                      <span className="text-sm font-mono text-violet-400 tabular-nums">{cert.year}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* University of West London Card */}
-              <div className="group relative bg-gradient-to-br from-white/5 to-white/5 border border-white/10 rounded-3xl p-8 hover:border-violet-400/50 transition-all duration-500 hover:-translate-y-2 overflow-hidden">
-                <div className="absolute top-6 right-6 text-xs font-mono tracking-widest text-violet-400/70">2019</div>
-
-                <div className="mt-12">
-                  <div className="text-xl font-semibold text-white mb-3">University of West London</div>
-                  <div className="text-gray-300 leading-relaxed">
-                    Personal and Professional Communication
-                  </div>
-                  <div className="mt-6 inline-flex items-center gap-2 bg-emerald-500/10 text-emerald-400 px-5 py-2 rounded-full text-sm font-medium border border-emerald-500/30">
-                    <span className="text-lg">🏆</span>
-                    Passed with Distinction
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* LinkedIn Learning Certifications */}
-          <div>
-            <h3 className="text-2xl font-semibold text-white mb-10 flex items-center gap-4">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-fuchsia-500 to-pink-500 flex items-center justify-center text-2xl">
-                📜
-              </div>
-              LinkedIn Learning Certificates
-            </h3>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid gap-7 lg:grid-cols-2">
+          <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-purple-500/15 to-white/[0.04] p-8 backdrop-blur-xl">
+            <p className="mb-8 text-xs font-bold uppercase tracking-[0.32em] text-purple-200">University of Cambridge</p>
+            <div className="space-y-5">
               {[
-                "Succeeding in Web Development: Full Stack and Front End",
-                "Introduction to Web Design and Development",
-                "HTML, CSS and Generative AI: Speed Up Your Process",
-                "WordPress Essential Training (2023)",
-                "WordPress Ecommerce: WooCommerce",
-                "WordPress: SEO",
-                "Technical Writing: Quick Start Guide",
-                "Creating API Documentation"
-              ].map((cert, i) => (
-                <div
-                  key={i}
-                  className="group bg-white/5 border border-white/10 hover:border-violet-400/40 rounded-3xl p-6 transition-all duration-300 hover:bg-white/10 hover:-translate-y-1 flex items-start gap-4"
-                >
-                  <div className="w-6 h-6 rounded-full bg-violet-500/10 flex-shrink-0 flex items-center justify-center mt-0.5 text-violet-400 text-sm group-hover:scale-110 transition-transform">
-                    ✓
-                  </div>
-                  <span className="text-gray-300 group-hover:text-white transition-colors leading-snug">{cert}</span>
+                { name: 'Cambridge Young Learners English (YLE) Flyers', year: '2016' },
+                { name: 'Key English Test (KET) - B1', year: '2016' },
+                { name: 'Preliminary English Test (PET) - B1', year: '2018' },
+                { name: 'First Certificate in English (FCE) - B2', year: '2019' },
+              ].map((cert) => (
+                <div key={cert.name} className="flex items-start justify-between gap-5 border-b border-white/10 pb-5 last:border-none last:pb-0">
+                  <span className="text-zinc-200">{cert.name}</span>
+                  <span className="font-mono text-sm text-purple-200">{cert.year}</span>
                 </div>
               ))}
             </div>
           </div>
 
+          <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 backdrop-blur-xl">
+            <p className="mb-8 text-xs font-bold uppercase tracking-[0.32em] text-purple-200">University of West London</p>
+            <h3 className="font-display text-3xl text-white">Personal and Professional Communication</h3>
+            <div className="mt-7 inline-flex rounded-full border border-emerald-300/20 bg-emerald-400/10 px-5 py-2 text-sm font-bold text-emerald-200">
+              Passed with Distinction
+            </div>
+            <p className="mt-8 font-mono text-sm text-zinc-400">2019</p>
+          </div>
+        </div>
+
+        <div className="mt-12 rounded-[2rem] border border-white/10 bg-black/30 p-8">
+          <h3 className="mb-8 font-display text-3xl text-white">LinkedIn Learning Certificates</h3>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {linkedinCertificates.map((cert) => (
+              <div key={cert} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-sm leading-6 text-zinc-300 transition hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white">
+                {cert}
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" className="scroll-mt-24 z-10 relative py-20 px-6 max-w-3xl mx-auto" data-aos="fade-up">
-        <h2 className="text-4xl text-violet-400 mb-12 text-center font-section tracking-tight">
-          Get in Touch
-        </h2>
 
-        <form onSubmit={handleFormSubmit} className="bg-white/5 border border-white/10 rounded-3xl p-10 backdrop-blur-lg">
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="mb-6">
-              <label htmlFor="name" className="block text-sm text-gray-300 mb-2">Name</label>
-              <input type="text" id="name" name="name" required className="w-full px-5 py-4 rounded-2xl bg-black/40 border border-white/10 focus:border-violet-500 focus:ring-0" placeholder="Your name" />
+      <section id="contact" className="relative z-10 mx-auto max-w-4xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
+        <div className="mb-12 text-center">
+          <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">Contact</p>
+          <h2 className="font-display text-4xl font-black text-white md:text-6xl">Get in Touch</h2>
+        </div>
+
+        <form onSubmit={handleFormSubmit} className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-6 shadow-2xl shadow-purple-950/30 backdrop-blur-2xl sm:p-10">
+          <div className="grid gap-6 md:grid-cols-2">
+            <div>
+              <label htmlFor="name" className="mb-2 block text-sm font-semibold text-zinc-300">Name</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-purple-300/70 focus:bg-purple-500/5"
+                placeholder="Your name"
+              />
             </div>
-            <div className="mb-6">
-              <label htmlFor="email" className="block text-sm text-gray-300 mb-2">Email</label>
-              <input type="email" id="email" name="_replyto" required className="w-full px-5 py-4 rounded-2xl bg-black/40 border border-white/10 focus:border-violet-500 focus:ring-0" placeholder="you@example.com" />
+
+            <div>
+              <label htmlFor="email" className="mb-2 block text-sm font-semibold text-zinc-300">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="_replyto"
+                required
+                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-purple-300/70 focus:bg-purple-500/5"
+                placeholder="you@example.com"
+              />
             </div>
           </div>
 
-          <div className="mb-8">
-            <label htmlFor="message" className="block text-sm text-gray-300 mb-2">Message</label>
-            <textarea id="message" name="message" rows={6} required className="w-full px-5 py-4 rounded-3xl bg-black/40 border border-white/10 focus:border-violet-500 focus:ring-0 resize-none" placeholder="How can I help you?"></textarea>
+          <div className="mt-6">
+            <label htmlFor="message" className="mb-2 block text-sm font-semibold text-zinc-300">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows={6}
+              required
+              className="w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-purple-300/70 focus:bg-purple-500/5"
+              placeholder="How can I help you?"
+            />
           </div>
 
           <button
             type="submit"
             disabled={formStatus === 'sending'}
-            className="w-full py-4 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-2xl font-semibold text-lg hover:brightness-110 transition disabled:opacity-70"
+            className="mt-7 w-full rounded-2xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-500 px-8 py-4 text-lg font-black text-white shadow-xl shadow-purple-700/30 transition hover:-translate-y-1 hover:shadow-purple-500/50 disabled:cursor-not-allowed disabled:opacity-70"
           >
             {formStatus === 'sending' ? 'Sending Message...' : 'Send Message'}
           </button>
 
-          {formStatus === 'success' && <p className="mt-6 text-green-400 text-center">Thank you! I'll get back to you soon.</p>}
-          {formStatus === 'error' && <p className="mt-6 text-red-400 text-center">Something went wrong. Please try again.</p>}
+          {formStatus === 'success' && <p className="mt-6 text-center text-emerald-300">Thank you! I'll get back to you soon.</p>}
+          {formStatus === 'error' && <p className="mt-6 text-center text-red-300">Something went wrong. Please try again.</p>}
         </form>
 
-        <div className="text-center mt-12 text-gray-400">
+        <div className="mt-10 text-center text-zinc-400">
           Or reach me directly on{' '}
-          <a href="https://www.linkedin.com/in/pramodyaathauda/" target="_blank" className="text-violet-400 hover:underline">LinkedIn</a> or{' '}
-          <a href="mailto:pramodya511@gmail.com" className="text-violet-400 hover:underline">Email</a>
+          <a href="https://www.linkedin.com/in/pramodyaathauda/" target="_blank" rel="noreferrer" className="text-purple-300 hover:text-white">LinkedIn</a>{' '}
+          or{' '}
+          <a href="mailto:pramodya511@gmail.com" className="text-purple-300 hover:text-white">Email</a>
         </div>
       </section>
 
-      {/* Scroll to Top */}
       {showScroll && (
-        <button onClick={scrollToTop} className="fixed bottom-8 right-8 z-50 group" aria-label="Scroll to top">
-          <div className="relative w-16 h-16 flex items-center justify-center rounded-full bg-gradient-to-br from-violet-600 to-fuchsia-600 shadow-2xl transition hover:scale-110">
-            <span className="absolute inset-0 bg-violet-500 rounded-full opacity-30 blur-xl group-hover:opacity-50 transition" />
-            <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 15l7-7 7 7" />
-            </svg>
-          </div>
+        <button onClick={scrollToTop} className="fixed bottom-8 right-8 z-50 rounded-full border border-white/10 bg-purple-600 p-4 text-white shadow-2xl shadow-purple-500/40 transition hover:-translate-y-1 hover:bg-purple-500" aria-label="Scroll to top">
+          ↑
         </button>
       )}
 
-      {/* Footer */}
-      <footer className="text-center py-16 border-t border-gray-800/70 text-gray-500 text-sm z-10 relative">
-        <p>© {new Date().getFullYear()} Dheeshani • Built with React, Tailwind & 💜</p>
+      <footer className="relative z-10 border-t border-white/10 px-6 py-12 text-center text-sm text-zinc-500">
+        <p>© {new Date().getFullYear()} Dheeshani • Built with React, Tailwind & purple energy</p>
         <p className="mt-3">
-          <a href="https://github.com/Pramodya2002" target="_blank" className="hover:text-violet-400 mx-3">GitHub</a> •
-          <a href="https://www.linkedin.com/in/pramodyaathauda/" target="_blank" className="hover:text-violet-400 mx-3">LinkedIn</a>
+          <a href="https://github.com/Pramodya2002" target="_blank" rel="noreferrer" className="mx-3 hover:text-purple-300">GitHub</a>
+          •
+          <a href="https://www.linkedin.com/in/pramodyaathauda/" target="_blank" rel="noreferrer" className="mx-3 hover:text-purple-300">LinkedIn</a>
         </p>
       </footer>
 
-      {/* Global Styles for Animation */}
       <style dangerouslySetInnerHTML={{
         __html: `
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+          .font-display {
+            font-family: 'Clash Display', 'Orbitron', 'Space Grotesk', sans-serif;
           }
-          .animate-fadeIn {
-            animation: fadeIn 0.6s ease-out forwards;
+
+          body {
+            font-family: 'Space Grotesk', sans-serif;
           }
-        `
-      }} />
 
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(28px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
 
-      {/* Global Styles */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  `
+          @keyframes floatGlow {
+            0%, 100% {
+              transform: translate3d(0, 0, 0) scale(1);
+            }
+            50% {
+              transform: translate3d(28px, 18px, 0) scale(1.08);
+            }
+          }
+
+          @keyframes shine {
+            0% {
+              filter: hue-rotate(0deg);
+            }
+            50% {
+              filter: hue-rotate(35deg);
+            }
+            100% {
+              filter: hue-rotate(0deg);
+            }
+          }
+
+          @keyframes marquee {
+            from {
+              transform: translateX(0);
+            }
+            to {
+              transform: translateX(-50%);
+            }
+          }
+        `,
       }} />
     </div>
   );
