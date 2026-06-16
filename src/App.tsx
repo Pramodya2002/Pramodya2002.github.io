@@ -1,17 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function App() {
-  useEffect(() => {
-    AOS.init({ duration: 900, once: true, offset: 80 });
-  }, []);
-
   const [showScroll, setShowScroll] = useState(false);
   const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
   const navItems = ['about', 'projects', 'experience', 'skills', 'certifications', 'contact'];
+
+  useEffect(() => {
+    AOS.init({
+      duration: 900,
+      once: true,
+      offset: 80,
+      easing: 'ease-out-cubic',
+    });
+  }, []);
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      setCursorPosition({ x: event.clientX, y: event.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,7 +36,7 @@ function App() {
       let current = '';
       navItems.forEach((sectionId) => {
         const section = document.getElementById(sectionId);
-        if (section && window.scrollY >= section.offsetTop - 140) {
+        if (section && window.scrollY >= section.offsetTop - 150) {
           current = sectionId;
         }
       });
@@ -41,7 +57,7 @@ function App() {
     const element = document.getElementById(id);
 
     if (element) {
-      const offset = 84;
+      const offset = 92;
       const bodyRect = document.body.getBoundingClientRect().top;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition - bodyRect - offset;
@@ -79,6 +95,7 @@ function App() {
     }
   };
 
+
   const MatrixRain = () => {
     useEffect(() => {
       const canvas = document.getElementById('matrixRain') as HTMLCanvasElement;
@@ -95,7 +112,7 @@ function App() {
       resizeCanvas();
       window.addEventListener('resize', resizeCanvas);
 
-      const letters = '01<>/{}[]()functionconstletreturnAPIReactJS◇◆▲▼λΣΠΩ∞≈≠';
+      const letters = '01<>/{}[]()functionconstletreturnAPIReactJSLaravelWP';
       const fontSize = 15;
       let columns = Math.floor(canvas.width / fontSize);
       let drops: number[] = Array(columns).fill(1);
@@ -106,13 +123,13 @@ function App() {
           drops = Array(columns).fill(1);
         }
 
-        ctx.fillStyle = 'rgba(3, 1, 10, 0.12)';
+        ctx.fillStyle = 'rgba(3, 1, 10, 0.14)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = '#c084fc';
+        ctx.fillStyle = '#d8b4fe';
         ctx.shadowColor = '#a855f7';
-        ctx.shadowBlur = 12;
-        ctx.font = `${fontSize}px monospace`;
+        ctx.shadowBlur = 14;
+        ctx.font = `${fontSize}px Space Grotesk, monospace`;
 
         for (let i = 0; i < drops.length; i++) {
           const text = letters[Math.floor(Math.random() * letters.length)];
@@ -134,7 +151,7 @@ function App() {
       };
     }, []);
 
-    return <canvas id="matrixRain" className="absolute inset-0 z-0 h-full w-full opacity-25 pointer-events-none" />;
+    return <canvas id="matrixRain" className="absolute inset-0 z-0 h-full w-full opacity-20 pointer-events-none" />;
   };
 
   const projects = [
@@ -225,11 +242,21 @@ function App() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#030108] text-white selection:bg-purple-500 selection:text-white">
 
+      <div
+        className="pointer-events-none fixed left-0 top-0 z-[120] hidden h-5 w-5 rounded-full bg-purple-300 mix-blend-difference transition-transform duration-75 md:block"
+        style={{ transform: `translate(${cursorPosition.x - 10}px, ${cursorPosition.y - 10}px)` }}
+      />
+      <div
+        className="pointer-events-none fixed left-0 top-0 z-[119] hidden h-12 w-12 rounded-full border border-purple-300/70 transition-transform duration-200 md:block"
+        style={{ transform: `translate(${cursorPosition.x - 24}px, ${cursorPosition.y - 24}px)` }}
+      />
+
+
       <div className="pointer-events-none fixed inset-0 z-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(168,85,247,0.34),transparent_28%),radial-gradient(circle_at_80%_10%,rgba(217,70,239,0.2),transparent_24%),linear-gradient(180deg,#030108_0%,#090014_48%,#030108_100%)]" />
-        <div className="absolute inset-0 opacity-[0.08] bg-[linear-gradient(rgba(255,255,255,.22)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.22)_1px,transparent_1px)] bg-[size:56px_56px]" />
-        <div className="absolute left-1/2 top-0 h-[520px] w-[520px] -translate-x-1/2 rounded-full bg-purple-600/20 blur-[130px] animate-[floatGlow_8s_ease-in-out_infinite]" />
-        <div className="absolute bottom-[-180px] right-[-120px] h-[460px] w-[460px] rounded-full bg-fuchsia-500/20 blur-[120px] animate-[floatGlow_10s_ease-in-out_infinite_reverse]" />
+        <div className="absolute inset-0 bg-[linear-gradient(120deg,#030108_0%,#11001f_38%,#050009_100%)]" />
+        <div className="absolute inset-0 opacity-[0.12] bg-[linear-gradient(rgba(216,180,254,.2)_1px,transparent_1px),linear-gradient(90deg,rgba(216,180,254,.2)_1px,transparent_1px)] bg-[size:58px_58px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(168,85,247,.32),transparent_26%),radial-gradient(circle_at_85%_20%,rgba(236,72,153,.18),transparent_24%),radial-gradient(circle_at_50%_100%,rgba(124,58,237,.22),transparent_32%)]" />
+        <div className="absolute left-0 top-0 h-full w-full opacity-40 animated-aurora" />
       </div>
 
 
@@ -237,13 +264,13 @@ function App() {
         <div className="flex items-center justify-between">
           <button
             onClick={scrollToTop}
-            className="font-display text-lg sm:text-xl tracking-[0.24em] text-white"
+            className="font-display text-lg font-black tracking-[0.24em] text-white sm:text-xl"
             aria-label="Go to top"
           >
             <span className="text-purple-400">D</span>HEESHANI
           </button>
 
-          <nav className="hidden lg:flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1">
+          <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1 lg:flex">
             {navItems.map((section) => (
               <button
                 key={section}
@@ -263,11 +290,10 @@ function App() {
             className="grid h-11 w-11 place-items-center rounded-full border border-purple-400/30 bg-purple-500/10 text-2xl text-purple-200 transition hover:bg-purple-500/20 lg:hidden"
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? 'x' : '='}
+            {isMobileMenuOpen ? '×' : '≡'}
           </button>
         </div>
       </header>
-
 
       {isMobileMenuOpen && (
         <div className="fixed inset-0 z-[80] bg-black/95 px-8 py-28 backdrop-blur-2xl lg:hidden">
@@ -291,16 +317,16 @@ function App() {
       <section className="relative z-10 min-h-screen overflow-hidden px-6 pt-32">
         <MatrixRain />
 
-        <div className="relative z-10 mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl items-center gap-14 py-20 lg:grid-cols-[1.1fr_.9fr]">
-          <div>
+        <div className="relative z-10 mx-auto grid min-h-[calc(100vh-8rem)] max-w-7xl items-center gap-14 py-20 lg:grid-cols-[1.12fr_.88fr]">
+          <div data-aos="fade-right">
             <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-purple-400/30 bg-purple-500/10 px-4 py-2 text-sm text-purple-100 shadow-lg shadow-purple-950/40">
               <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_18px_#34d399]" />
               Open to opportunities
             </div>
 
-            <h1 className="font-display text-6xl font-black leading-[0.92] tracking-tight sm:text-7xl lg:text-8xl">
-              Hi, I'm{' '}
-              <span className="block bg-gradient-to-r from-purple-300 via-fuchsia-300 to-white bg-clip-text text-transparent animate-[shine_4s_linear_infinite]">
+            <h1 className="font-display text-6xl font-black leading-[0.92] tracking-normal text-white sm:text-7xl lg:text-8xl">
+              Hi, I'm
+              <span className="block bg-gradient-to-r from-purple-200 via-fuchsia-300 to-white bg-clip-text text-transparent animated-title">
                 Dheeshani
               </span>
             </h1>
@@ -329,11 +355,15 @@ function App() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-md">
-            <div className="absolute -inset-6 rounded-[2.5rem] bg-gradient-to-br from-purple-600/40 via-fuchsia-500/20 to-transparent blur-2xl" />
+          <div className="relative mx-auto w-full max-w-md" data-aos="zoom-in">
+            <div className="absolute -inset-6 rounded-[2.5rem] border border-purple-300/20 animated-border" />
             <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.05] p-5 shadow-2xl shadow-purple-950/50 backdrop-blur-2xl">
               <div className="aspect-[4/5] overflow-hidden rounded-[1.5rem] border border-purple-300/20">
-                <img src="/skills/dp.png" alt="Dheeshani" className="h-full w-full object-cover grayscale-[20%] transition duration-700 hover:scale-105 hover:grayscale-0" />
+                <img
+                  src="/skills/dp.png"
+                  alt="Dheeshani"
+                  className="h-full w-full object-cover grayscale-[18%] transition duration-700 hover:scale-105 hover:grayscale-0"
+                />
               </div>
 
               <div className="mt-5 grid grid-cols-2 gap-3">
@@ -355,21 +385,26 @@ function App() {
       <section id="about" className="relative z-10 mx-auto max-w-7xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
         <div className="mb-12">
           <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">About Me</p>
-          <h2 className="font-display text-4xl font-black text-white md:text-6xl">I build clean digital products with personality.</h2>
+          <h2 className="font-display text-4xl font-black text-white md:text-6xl">
+            I build clean digital products with personality.
+          </h2>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[.8fr_1.2fr]">
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 backdrop-blur-xl">
             <p className="text-lg leading-8 text-zinc-300">
-              I'm a passionate <strong className="text-purple-200">BSc (Hons) Computer Science graduate</strong> from Staffordshire University with
-              <strong className="text-purple-200"> Second Class Honours (First Division)</strong>, specializing in modern full-stack web development and creating impactful digital experiences through scalable and user-focused applications.
+              I'm a passionate <strong className="text-purple-200">BSc (Hons) Computer Science graduate</strong> from
+              Staffordshire University with <strong className="text-purple-200"> Second Class Honours (First Division)</strong>,
+              specializing in modern full-stack web development and creating impactful digital experiences through scalable
+              and user-focused applications.
             </p>
           </div>
 
           <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-purple-500/10 to-white/[0.03] p-8 backdrop-blur-xl">
             <p className="leading-8 text-zinc-300">
-              I work across modern full-stack technologies including <strong>React</strong>, <strong>Laravel</strong>, <strong>WordPress</strong>, and the JavaScript/TypeScript ecosystem.
-              From dynamic booking platforms to elegant eCommerce websites, I enjoy creating fast, scalable, and maintainable digital products with excellent user experiences.
+              I work across modern full-stack technologies including <strong>React</strong>, <strong>Laravel</strong>,
+              <strong> WordPress</strong>, and the JavaScript/TypeScript ecosystem. From dynamic booking platforms to elegant
+              eCommerce websites, I enjoy creating fast, scalable, and maintainable digital products with excellent user experiences.
             </p>
           </div>
 
@@ -402,7 +437,6 @@ function App() {
         </div>
       </section>
 
-
       <section id="projects" className="relative z-10 mx-auto max-w-7xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
         <div className="mb-12 text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">Selected Work</p>
@@ -417,7 +451,11 @@ function App() {
               style={{ animation: `fadeInUp .7s ease ${index * 120}ms both` }}
             >
               <div className="relative h-56 overflow-hidden rounded-[1.45rem]">
-                <img src={project.image} alt={project.alt} className="h-full w-full object-cover transition duration-700 group-hover:scale-110" />
+                <img
+                  src={project.image}
+                  alt={project.alt}
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
               </div>
 
@@ -427,7 +465,10 @@ function App() {
 
                 <div className="mt-5 flex flex-wrap gap-2">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="rounded-full border border-purple-300/20 bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-200">
+                    <span
+                      key={tag}
+                      className="rounded-full border border-purple-300/20 bg-purple-500/10 px-3 py-1 text-xs font-semibold text-purple-200"
+                    >
                       #{tag}
                     </span>
                   ))}
@@ -446,7 +487,6 @@ function App() {
           ))}
         </div>
       </section>
-
 
       <section id="experience" className="relative z-10 mx-auto max-w-5xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
         <div className="mb-12 text-center">
@@ -478,8 +518,14 @@ function App() {
               ],
             },
           ].map((job, index) => (
-            <div key={job.role} className={`relative pl-12 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:pl-0' : 'md:ml-auto md:pl-12'}`}>
-              <span className={`absolute top-8 h-4 w-4 rounded-full bg-purple-300 shadow-[0_0_24px_#c084fc] ${index % 2 === 0 ? 'left-[9px] md:-right-2 md:left-auto' : 'left-[9px] md:-left-2'}`} />
+            <div
+              key={job.role}
+              className={`relative pl-12 md:w-1/2 ${index % 2 === 0 ? 'md:pr-12 md:pl-0' : 'md:ml-auto md:pl-12'}`}
+            >
+              <span
+                className={`absolute top-8 h-4 w-4 rounded-full bg-purple-300 shadow-[0_0_24px_#c084fc] ${index % 2 === 0 ? 'left-[9px] md:-right-2 md:left-auto' : 'left-[9px] md:-left-2'
+                  }`}
+              />
               <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-8 backdrop-blur-xl transition hover:border-purple-300/50 hover:bg-purple-500/10">
                 <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-purple-300">{job.date}</p>
                 <h3 className="font-display text-2xl text-white">{job.role}</h3>
@@ -495,7 +541,6 @@ function App() {
         </div>
       </section>
 
-
       <section id="skills" className="relative z-10 mx-auto max-w-6xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
         <div className="mb-12 text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">Capabilities</p>
@@ -504,11 +549,13 @@ function App() {
 
         <div className="mb-16 overflow-hidden rounded-full border border-white/10 bg-white/[0.04] py-4">
           <div className="flex w-max animate-[marquee_28s_linear_infinite] gap-4 px-4">
-            {[...technicalSkills.flatMap((item) => item.skills), ...technicalSkills.flatMap((item) => item.skills)].map((skill, index) => (
-              <span key={`${skill}-${index}`} className="rounded-full bg-purple-500/15 px-5 py-2 text-sm font-semibold text-purple-100">
-                {skill}
-              </span>
-            ))}
+            {[...technicalSkills.flatMap((item) => item.skills), ...technicalSkills.flatMap((item) => item.skills)].map(
+              (skill, index) => (
+                <span key={`${skill}-${index}`} className="rounded-full bg-purple-500/15 px-5 py-2 text-sm font-semibold text-purple-100">
+                  {skill}
+                </span>
+              ),
+            )}
           </div>
         </div>
 
@@ -538,7 +585,6 @@ function App() {
           </div>
         </div>
       </section>
-
 
       <section id="certifications" className="relative z-10 mx-auto max-w-6xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
         <div className="mb-12 text-center">
@@ -586,7 +632,6 @@ function App() {
         </div>
       </section>
 
-
       <section id="contact" className="relative z-10 mx-auto max-w-4xl scroll-mt-28 px-6 py-24" data-aos="fade-up">
         <div className="mb-12 text-center">
           <p className="mb-3 text-sm font-bold uppercase tracking-[0.35em] text-purple-300">Contact</p>
@@ -597,46 +642,21 @@ function App() {
           <div className="grid gap-6 md:grid-cols-2">
             <div>
               <label htmlFor="name" className="mb-2 block text-sm font-semibold text-zinc-300">Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-purple-300/70 focus:bg-purple-500/5"
-                placeholder="Your name"
-              />
+              <input type="text" id="name" name="name" required className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-purple-300/70 focus:bg-purple-500/5" placeholder="Your name" />
             </div>
 
             <div>
               <label htmlFor="email" className="mb-2 block text-sm font-semibold text-zinc-300">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="_replyto"
-                required
-                className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-purple-300/70 focus:bg-purple-500/5"
-                placeholder="you@example.com"
-              />
+              <input type="email" id="email" name="_replyto" required className="w-full rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-purple-300/70 focus:bg-purple-500/5" placeholder="you@example.com" />
             </div>
           </div>
 
           <div className="mt-6">
             <label htmlFor="message" className="mb-2 block text-sm font-semibold text-zinc-300">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              rows={6}
-              required
-              className="w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-purple-300/70 focus:bg-purple-500/5"
-              placeholder="How can I help you?"
-            />
+            <textarea id="message" name="message" rows={6} required className="w-full resize-none rounded-2xl border border-white/10 bg-black/40 px-5 py-4 text-white outline-none transition placeholder:text-zinc-600 focus:border-purple-300/70 focus:bg-purple-500/5" placeholder="How can I help you?" />
           </div>
 
-          <button
-            type="submit"
-            disabled={formStatus === 'sending'}
-            className="mt-7 w-full rounded-2xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-500 px-8 py-4 text-lg font-black text-white shadow-xl shadow-purple-700/30 transition hover:-translate-y-1 hover:shadow-purple-500/50 disabled:cursor-not-allowed disabled:opacity-70"
-          >
+          <button type="submit" disabled={formStatus === 'sending'} className="mt-7 w-full rounded-2xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-500 px-8 py-4 text-lg font-black text-white shadow-xl shadow-purple-700/30 transition hover:-translate-y-1 hover:shadow-purple-500/50 disabled:cursor-not-allowed disabled:opacity-70">
             {formStatus === 'sending' ? 'Sending Message...' : 'Send Message'}
           </button>
 
@@ -675,6 +695,31 @@ function App() {
 
           body {
             font-family: 'Space Grotesk', sans-serif;
+            cursor: none;
+          }
+
+          a, button, input, textarea {
+            cursor: none;
+          }
+
+          .animated-title {
+            background-size: 220% auto;
+            animation: titleShift 4s linear infinite;
+          }
+
+          .animated-border {
+            background:
+              linear-gradient(#030108, #030108) padding-box,
+              conic-gradient(from 0deg, transparent, #a855f7, #ec4899, transparent, #a855f7) border-box;
+            border: 1px solid transparent;
+            animation: spinGlow 7s linear infinite;
+          }
+
+          .animated-aurora {
+            background:
+              linear-gradient(115deg, transparent 0%, rgba(168,85,247,.14) 35%, transparent 52%),
+              linear-gradient(245deg, transparent 0%, rgba(236,72,153,.1) 45%, transparent 66%);
+            animation: auroraMove 10s ease-in-out infinite alternate;
           }
 
           @keyframes fadeInUp {
@@ -688,24 +733,33 @@ function App() {
             }
           }
 
-          @keyframes floatGlow {
-            0%, 100% {
-              transform: translate3d(0, 0, 0) scale(1);
-            }
-            50% {
-              transform: translate3d(28px, 18px, 0) scale(1.08);
-            }
-          }
-
-          @keyframes shine {
+          @keyframes titleShift {
             0% {
+              background-position: 0% center;
               filter: hue-rotate(0deg);
             }
             50% {
+              background-position: 100% center;
               filter: hue-rotate(35deg);
             }
             100% {
+              background-position: 0% center;
               filter: hue-rotate(0deg);
+            }
+          }
+
+          @keyframes spinGlow {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+
+          @keyframes auroraMove {
+            from {
+              transform: translate3d(-3%, -2%, 0) scale(1);
+            }
+            to {
+              transform: translate3d(3%, 2%, 0) scale(1.05);
             }
           }
 
@@ -715,6 +769,16 @@ function App() {
             }
             to {
               transform: translateX(-50%);
+            }
+          }
+
+          @media (max-width: 768px) {
+            body,
+            a,
+            button,
+            input,
+            textarea {
+              cursor: auto;
             }
           }
         `,
