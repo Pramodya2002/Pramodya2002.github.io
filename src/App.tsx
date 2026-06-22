@@ -296,8 +296,17 @@ function App() {
       </header>
 
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[80] bg-black/95 px-8 py-28 backdrop-blur-2xl lg:hidden">
-          <div className="flex h-full flex-col justify-center gap-5">
+        <div className="fixed inset-0 z-[80] bg-black/95 px-8 py-28 backdrop-blur-2xl lg:hidden overflow-y-auto">
+
+          <button
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="absolute top-8 right-8 z-10 grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-white/10 text-4xl text-white hover:bg-white/20 transition-all active:scale-95"
+            aria-label="Close menu"
+          >
+            ×
+          </button>
+
+          <div className="flex h-full flex-col justify-center gap-5 pt-12">
             {navItems.map((section, index) => (
               <button
                 key={section}
