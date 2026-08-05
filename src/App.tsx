@@ -185,6 +185,24 @@ function App() {
       href: 'https://trypod.lk/',
       linkText: 'Visit Site',
     },
+    {
+      title: 'IMPRESSO Payroll System',
+      image: '/projects/payroll.png',
+      alt: 'IMPRESSO Payroll',
+      description:
+        'A modern payroll management system that automates employee payroll initiation, processing, and management. Features intelligent automation, tax-compliant calculations, real-time workforce analytics, and smart calculation engines for companies.',
+      tags: ['React', 'Laravel', 'TailwindCSS', 'MySQL'],
+
+    },
+    {
+      title: 'AgriOps - Farm Operations Management Platform',
+      image: '/projects/agriops.png',
+      alt: 'AgriOps',
+      description:
+        'A comprehensive farm operations and processing management system that digitizes the full agricultural workflow from cultivation to sales and profit tracking. Includes field & crop management, worker tasks, harvest inventory, processing, shop sales, and automated profit reports with full Sinhala localization support.',
+      tags: ['React', 'Laravel', 'TailwindCSS', 'MySQL'],
+
+    },
   ];
 
   const technicalSkills = [
@@ -483,14 +501,16 @@ function App() {
                   ))}
                 </div>
 
-                <a
-                  href={project.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-6 inline-flex items-center gap-2 font-bold text-purple-200 transition hover:text-white"
-                >
-                  {project.linkText} <span className="transition group-hover:translate-x-1">→</span>
-                </a>
+                {project.href && (
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="mt-6 inline-flex items-center gap-2 font-bold text-purple-200 transition hover:text-white"
+                  >
+                    {project.linkText} <span className="transition group-hover:translate-x-1">→</span>
+                  </a>
+                )}
               </div>
             </article>
           ))}
