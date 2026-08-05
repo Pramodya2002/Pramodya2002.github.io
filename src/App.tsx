@@ -195,6 +195,14 @@ function App() {
 
     },
     {
+      title: 'VBA – Vehicle Breakdown Assistance (PWA)',
+      image: '/projects/vba.png',
+      alt: 'VBA Vehicle Breakdown Assistance',
+      description:
+        'A Progressive Web App for vehicle breakdown assistance (similar to PickMe but for roadside help). Consists of three separate portals for Customers, Agents, and Admins. Customers can select their location, choose a service, view nearby agents, and track real-time assistance progress.',
+      tags: ['React', 'Laravel', 'TailwindCSS', 'MySQL', 'PWA'],
+    },
+    {
       title: 'AgriOps - Farm Operations Management Platform',
       image: '/projects/agriops.png',
       alt: 'AgriOps',
