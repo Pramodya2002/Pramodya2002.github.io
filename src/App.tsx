@@ -602,6 +602,7 @@ function App() {
         </div>
 
         <div className="grid gap-7 lg:grid-cols-2">
+          {/* University of Cambridge */}
           <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-purple-500/15 to-white/[0.04] p-8 backdrop-blur-xl">
             <p className="mb-8 text-xs font-bold uppercase tracking-[0.32em] text-purple-200">University of Cambridge</p>
             <div className="space-y-5">
@@ -619,6 +620,7 @@ function App() {
             </div>
           </div>
 
+          {/* University of West London */}
           <div className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-8 backdrop-blur-xl">
             <p className="mb-8 text-xs font-bold uppercase tracking-[0.32em] text-purple-200">University of West London</p>
             <h3 className="font-display text-3xl text-white">Personal and Professional Communication</h3>
@@ -629,11 +631,61 @@ function App() {
           </div>
         </div>
 
+        {/* Google Project Management Professional Certificate */}
+        <div className="mt-12 rounded-[2rem] border border-white/10 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-white/[0.03] p-8 backdrop-blur-xl">
+          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.32em] text-blue-200">Coursera • Google</p>
+              <h3 className="font-display text-2xl text-white md:text-3xl">Google Project Management</h3>
+              <p className="mt-2 text-sm text-zinc-400">Professional Certificate</p>
+            </div>
+            <div className="text-left sm:text-right">
+              <p className="font-mono text-sm text-purple-200">Aug 2026</p>
+              <a
+                href="https://coursera.org/verify/professional-cert/4AVJBVNKMW2E"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-1 inline-block text-sm text-blue-300 hover:text-blue-200 underline underline-offset-4"
+              >
+                Verify Certificate →
+              </a>
+            </div>
+          </div>
+
+          <p className="mb-8 max-w-3xl text-sm leading-relaxed text-zinc-300">
+            Completed seven courses developed by Google, including hands-on, practice-based assessments. Competent in initiating, planning and running both traditional and agile projects.
+          </p>
+
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              'Foundations of Project Management',
+              'Project Initiation: Starting a Successful Project',
+              'Project Planning: Putting It All Together',
+              'Project Execution: Running the Project',
+              'Agile Project Management',
+              'Capstone: Applying Project Management in the Real World',
+              'Accelerate Your Job Search with AI',
+            ].map((course) => (
+              <div
+                key={course}
+                className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-zinc-300 transition hover:border-blue-300/40 hover:bg-blue-500/10 hover:text-white"
+              >
+                <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-xs text-blue-300">✓</span>
+                <span>{course}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* LinkedIn Learning Certificates */}
         <div className="mt-12 rounded-[2rem] border border-white/10 bg-black/30 p-8">
           <h3 className="mb-8 font-display text-3xl text-white">LinkedIn Learning Certificates</h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {linkedinCertificates.map((cert) => (
-              <div key={cert} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-sm leading-6 text-zinc-300 transition hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white">
+              <div
+                key={cert}
+                className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-sm leading-6 text-zinc-300 transition hover:border-purple-300/50 hover:bg-purple-500/10 hover:text-white"
+              >
                 {cert}
               </div>
             ))}
