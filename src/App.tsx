@@ -661,27 +661,49 @@ function App() {
 
         {/* Google Project Management Professional Certificate */}
         <div className="mt-12 rounded-[2rem] border border-white/10 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-white/[0.03] p-8 backdrop-blur-xl">
-          <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div>
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.32em] text-blue-200">Coursera • Google</p>
-              <h3 className="font-display text-2xl text-white md:text-3xl">Google Project Management</h3>
-              <p className="mt-2 text-sm text-zinc-400">Professional Certificate</p>
+          <div className="mb-8 flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6">
+              {/* Badge Image */}
+              <a
+                href="https://www.credly.com/badges/5dd5e833-cc9c-4e7f-a712-fed6b1784d89"
+                target="_blank"
+                rel="noreferrer"
+                className="flex-shrink-0 transition hover:scale-105"
+              >
+                <img
+                  src="/google-project-management-professional-certificate-.2.png"
+                  alt="Google Project Management Professional Certificate Badge"
+                  className="h-28 w-auto rounded-lg shadow-lg shadow-blue-500/20"
+                />
+              </a>
+
+              <div>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.32em] text-blue-200">
+                  Coursera • Google
+                </p>
+                <h3 className="font-display text-2xl text-white md:text-3xl">
+                  Google Project Management
+                </h3>
+                <p className="mt-2 text-sm text-zinc-400">Professional Certificate (v.3)</p>
+              </div>
             </div>
+
             <div className="text-left sm:text-right">
               <p className="font-mono text-sm text-purple-200">Aug 2026</p>
               <a
-                href="https://coursera.org/verify/professional-cert/4AVJBVNKMW2E"
+                href="https://www.credly.com/badges/5dd5e833-cc9c-4e7f-a712-fed6b1784d89"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-1 inline-block text-sm text-blue-300 hover:text-blue-200 underline underline-offset-4"
               >
-                Verify Certificate →
+                Verify Badge →
               </a>
             </div>
           </div>
 
           <p className="mb-8 max-w-3xl text-sm leading-relaxed text-zinc-300">
-            Completed seven courses developed by Google, including hands-on, practice-based assessments. Competent in initiating, planning and running both traditional and agile projects.
+            Completed seven courses developed by Google, including hands-on, practice-based assessments.
+            Competent in initiating, planning and running both traditional and agile projects.
           </p>
 
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -698,7 +720,9 @@ function App() {
                 key={course}
                 className="flex items-start gap-3 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-zinc-300 transition hover:border-blue-300/40 hover:bg-blue-500/10 hover:text-white"
               >
-                <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-xs text-blue-300">✓</span>
+                <span className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-blue-500/20 text-xs text-blue-300">
+                  ✓
+                </span>
                 <span>{course}</span>
               </div>
             ))}
